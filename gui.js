@@ -10,7 +10,7 @@ window.basthonGUI = (function () {
      * Initialise the GUI (Basthon part).
      */
     that.init = async function () {
-        await Basthon.Goodies.showLoader("Chargement de Basthon-Notebook...", false);
+        await Basthon.Goodies.showLoader("Loading Basthon-Notebook...", false);
         requirejs.onError = console.log;
 
         that.notebook = Jupyter.notebook;
@@ -31,16 +31,16 @@ window.basthonGUI = (function () {
           we open a new notebook
           (see kernelselector.js).
         */
-        Basthon.Goodies.setLoaderText("Chargement du contenu du notebook...");
+        Basthon.Goodies.setLoaderText("Loading the contents of the notebook...");
         if( !window.basthonEmptyNotebook && !await that.loadFromQS() ) {
             that.notebook.loadFromStorage();
         }
 
-        Basthon.Goodies.setLoaderText("Chargement des fichiers auxiliaires...");
+        Basthon.Goodies.setLoaderText("Loading additional files...");
         // loading aux files from URL
         await that.loadURLAux();
 
-        Basthon.Goodies.setLoaderText("Chargement des modules annexes...");
+        Basthon.Goodies.setLoaderText("Loading additional modules...");
         // loading modules from URL
         await that.loadURLModules();
 
@@ -222,9 +222,9 @@ window.basthonGUI = (function () {
     that.share = function (key="ipynb") {
         const msg = $("<div>").html(`
 <p>
-Un lien vers la page de Basthon avec le contenu actuel du notebook a été créé.
+A link to the Basthon page with the current notebook content has been created.
 <br>
-<i class="fa fa-exclamation-circle"></i> Attention, partager un script trop long peut ne pas fonctionner avec certains navigateurs.
+<i class="fa fa-exclamation-circle"></i> Be careful, sharing a script that is too long may not work with some browsers.
 `);
         that.events.trigger('before_share.Notebook');
         const url = that.notebook.toURL(key);
@@ -234,13 +234,13 @@ Un lien vers la page de Basthon avec le contenu actuel du notebook a été cré�
             title : "Partager ce notebook",
             body : msg,
             buttons : {
-                "Copier dans le presse-papier": {
+                "Copy to clipboard": {
                     "class": "btn-primary",
                     "click": function () {
                         that.copyToClipboard(url);
                     },
                 },
-                "Tester le lien": {
+                "Test the link": {
                     "click": function () {
                         that.openURL(url);
                     },
